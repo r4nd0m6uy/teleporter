@@ -1,5 +1,5 @@
 ---
---Teleporter next
+--Teleporter 0.0
 --Copyright (C) 2015 R4nd0m6uy
 --
 --This library is free software; you can redistribute it and/or
@@ -20,8 +20,9 @@
 teleporter = {}
 teleporter.version = 0.0
 teleporter.db = nil
+teleporter.db_filename = minetest.get_worldpath().."/teleporter_db"
 
--- config.lua contains configuration parameters
+-- Read configuration
 dofile(minetest.get_modpath("teleporter").."/config.lua")
 
 ------------------------------------------------------------------------
@@ -34,12 +35,37 @@ end
 local function get_teleporters_db()
         if teleporter.db == nil
         then
-                -- TODO : read file
-                
+                local file = io.open(teleporter.db_filename, "r")
+        
                 teleporter.db = {}
+                
+                if file ~= nil 
+                then
+                        local file_content = file:read("*all")
+                        io.close(file)
+
+                        if file_content and file_content ~= "" 
+                        then
+                                minetest.log("Teleporters database initialised from file")
+                                teleporter.db = minetest.deserialize(file_content)
+                        end
+                end
         end
         
         return teleporter.db
+end
+
+local function save_teleporters_db()
+	local file = io.open(teleporter.db_filename, "w")
+        
+	if file 
+        then
+		file:write(minetest.serialize(get_teleporters_db()))
+		io.close(file)
+                minetest.log("Teleporters database saved in file")
+	else
+		error(file)
+	end
 end
 
 local function get_teleporter_at(pos)
@@ -140,6 +166,9 @@ local function update_teleporters_meta()
                         "label[0,2;Destination]"..
                         build_destination_drop_list(hash))
         end
+        
+        -- Make changes permanent
+        save_teleporters_db()
 end
 
 ------------------------------------------------------------------------

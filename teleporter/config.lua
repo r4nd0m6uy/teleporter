@@ -1,6 +1,6 @@
 ---
---Teleporter Configuration
---Copyright (C) 2012 Bad_Command
+--Teleporter 0.0
+--Copyright (C) 2015 R4nd0m6uy
 --
 --This library is free software; you can redistribute it and/or
 --modify it under the terms of the GNU Lesser General Public
