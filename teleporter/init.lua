@@ -224,7 +224,7 @@ end
 ------------------------------------------------------------------------
 -- on_construct
 ------------------------------------------------------------------------
-local function teleporter_constructed(pos, isPublic)
+local function teleporter_pad_constructed(pos)
         local db = get_teleporters_db()
         local hash = build_hash(pos)
         local teleporter = {
@@ -238,14 +238,6 @@ local function teleporter_constructed(pos, isPublic)
         
         db[hash] = teleporter
         update_teleporters_meta()
-end
-
-local function teleporter_pad_constructed(pos)
-     teleporter_constructed(pos, 1)   
-end
-
-local function teleporter_pad_private_constructed(pos)
-     teleporter_constructed(pos, 0)   
 end
 
 ------------------------------------------------------------------------
@@ -300,24 +292,6 @@ minetest.register_node("teleporter:teleporter_pad", {
         on_destruct = teleporter_destructed
 })
 
-minetest.register_node("teleporter:teleporter_pad_private", {
-	tile_images = {"teleporter_teleporter_pad_private.png"},
-	drawtype = "signlike",
-	paramtype = "light",
-	paramtype2 = "wallmounted",
-	walkable = false,
-	description="Teleporter Pad",
-	inventory_image = "teleporter_teleporter_pad_private.png",
-	metadata_name = "sign",
-	groups = {choppy=2,dig_immediate=2},
-	selection_box = {
-		type = "wallmounted",
-	},
-        on_construct = teleporter_pad_private_constructed,
-        on_receive_fields = teleporter_configured,
-        on_destruct = teleporter_destructed
-})
-
 ------------------------------------------------------------------------
 -- teleport effect
 ------------------------------------------------------------------------
@@ -339,14 +313,4 @@ minetest.register_craft({
                 {'', 'default:mese', ''},
         }
 })
-
-minetest.register_craft({
-	output = 'teleporter:teleporter_pad_private',
-	recipe = {
-                {'default:glass', 'default:glass', 'default:glass'},
-                {'', 'default:steel_ingot', ''},
-                {'', 'default:mese', ''},
-        }
-})
-
 
