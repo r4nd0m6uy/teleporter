@@ -160,11 +160,12 @@ local function update_teleporters_meta()
                 
                 -- Build right click menu
                 meta:set_string("formspec",
-                        "size[5,3]"..
+                        "size[5,4]"..
                         "label[2,0;Configure teleporter]"..
                         "field[1,1;4,1;ID;Teleporter name;"..tp.name.."]"..
                         "label[0,2;Destination]"..
-                        build_destination_drop_list(hash))
+                        build_destination_drop_list(hash)..
+                        "button_exit[2,3;2,1;save;Save]")
         end
         
         -- Make changes permanent
