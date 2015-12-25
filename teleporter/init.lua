@@ -233,6 +233,7 @@ local function teleporter_constructed(pos, isPublic)
                 public = isPublic,
                 destination_hash = nil,
                 owner = nil,
+                last_spawned_player_time = minetest.get_gametime()
         }
         
         db[hash] = teleporter
@@ -252,11 +253,17 @@ end
 ------------------------------------------------------------------------
 local function teleport_event(pos, node, active_object_count, active_object_count_wider)
         local objs = minetest.env:get_objects_inside_radius(pos, 1)
-        local teleporter = get_teleporter_at(pos)
+        local tp = get_teleporter_at(pos)
         local db = get_teleporters_db()
         
-        -- Stop if unlinkeds
-        if teleporter.destination_hash == nil
+        -- Stop if unlinked
+        if tp.destination_hash == nil
+        then
+                return
+        end
+        
+        -- Stops if cooling down
+        if minetest.get_gametime() - tp.last_spawned_player_time <= teleporter.cooldown_time
         then
                 return
         end
@@ -266,7 +273,8 @@ local function teleport_event(pos, node, active_object_count, active_object_coun
         do
                 if player:get_player_name() ~= nil 
                 then
-                        player:moveto(db[teleporter.destination_hash].location, false)
+                        player:moveto(db[tp.destination_hash].location, false)
+                        db[tp.destination_hash].last_spawned_player_time = minetest.get_gametime()
                 end
         end
 end
