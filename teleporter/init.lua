@@ -248,6 +248,30 @@ local function teleporter_pad_private_constructed(pos)
 end
 
 ------------------------------------------------------------------------
+-- teleport abm callback
+------------------------------------------------------------------------
+local function teleport_event(pos, node, active_object_count, active_object_count_wider)
+        local objs = minetest.env:get_objects_inside_radius(pos, 1)
+        local teleporter = get_teleporter_at(pos)
+        local db = get_teleporters_db()
+        
+        -- Stop if unlinkeds
+        if teleporter.destination_hash == nil
+        then
+                return
+        end
+        
+        -- Teleport near player(s)
+        for k, player in pairs(objs) 
+        do
+                if player:get_player_name() ~= nil 
+                then
+                        player:moveto(db[teleporter.destination_hash].location, false)
+                end
+        end
+end
+
+------------------------------------------------------------------------
 -- minetest.register_node
 ------------------------------------------------------------------------
 minetest.register_node("teleporter:teleporter_pad", {
@@ -284,6 +308,16 @@ minetest.register_node("teleporter:teleporter_pad_private", {
         on_construct = teleporter_pad_private_constructed,
         on_receive_fields = teleporter_configured,
         on_destruct = teleporter_destructed
+})
+
+------------------------------------------------------------------------
+-- teleport effect
+------------------------------------------------------------------------
+minetest.register_abm(
+	{nodenames = {"teleporter:teleporter_pad"},
+	interval = 1.0,
+	chance = 1,
+	action = teleport_event
 })
 
 ------------------------------------------------------------------------
