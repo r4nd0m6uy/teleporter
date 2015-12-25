@@ -9,11 +9,17 @@ existing until now but didn't cover my needs:
 
 # Crafting
 A teleporter pad is build using a mese block and three glass blocks
+
 > G G G
-> - - -
-> - M -
+
+> X X X
+
+> X M X
+
 >
+
 > M = Mese
+
 > G = Glass
 
 # Configuring
