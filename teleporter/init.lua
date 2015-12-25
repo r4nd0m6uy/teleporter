@@ -276,7 +276,7 @@ end
 -- minetest.register_node
 ------------------------------------------------------------------------
 minetest.register_node("teleporter:teleporter_pad", {
-	tile_images = {"teleporter_teleporter_pad.png"},
+	tiles = {"teleporter_teleporter_pad.png"},
 	drawtype = "signlike",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
