@@ -255,7 +255,14 @@ end
 minetest.register_node(
   "teleporter:teleporter_pad", {
     tiles = {"teleporter_teleporter_pad.png"},
-    drawtype = "signlike",
+    drawtype = "nodebox",
+    node_box = {
+      type = "fixed",
+      fixed = {
+        ---{-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+        {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+      },
+    },
     paramtype = "light",
     paramtype2 = "wallmounted",
     walkable = false,
@@ -263,7 +270,7 @@ minetest.register_node(
     inventory_image = "teleporter_teleporter_pad.png",
     metadata_name = "sign",
     groups = {
-      choppy = 2,
+      cracky = 2,
       dig_immediate = 2
     },
     selection_box = {
