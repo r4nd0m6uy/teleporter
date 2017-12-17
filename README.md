@@ -10,17 +10,15 @@ existing until now but didn't cover my needs:
 # Crafting
 A teleporter pad is build using a mese block and three glass blocks
 
-> G G G
+```txt
+G G G
+X X X
+X M X
 
-> X X X
-
-> X M X
-
->
-
-> M = Mese
-
-> G = Glass
+G = Glass
+X = Nothing
+M = Mese crystal
+```
 
 # Configuring
 When placed, a teleporter pad is unlinked and has a default name built 
@@ -49,5 +47,4 @@ make this mode more complete:
     destination name
 * Add locked teleporters that are only visible in the destination list 
   for the owner
-* Don't drop a teleporter pad, it will become invisible
 * Code optimisation
