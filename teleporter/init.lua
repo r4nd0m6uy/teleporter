@@ -303,7 +303,7 @@ minetest.register_craft(
     recipe = {
       {'default:glass', 'default:glass', 'default:glass'},
       {'', '', ''},
-      {'', 'default:mese', ''},
+      {'', 'default:mese_crystal', ''},
     }
   }
 )
