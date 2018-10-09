@@ -6,6 +6,11 @@ based upon "Teleporters improved", original documentation see below.
 - created pictogram and added it
 - added "pos" checks to prevent run-time errors
 - added teleport sound
+- restructured mod folder, since its not a modpack
+
+v1.0P
+
+/minertestdude
 
 # Teleporters improved
 A minimalist teleporter mode that is more user friendly. 
@@ -26,7 +31,7 @@ X M X
 
 G = Glass
 X = Nothing
-M = Mese crystal
+M = Mese Block
 ```
 
 # Configuring
@@ -59,9 +64,9 @@ make this mode more complete:
 * Code optimisation
 
 # Contributors
-- r4nd0m6uy, "minimalist teleporter" project, using these projects:
--- Bad-Command, "teleporter mod" code
--- VanessaE, "teleport_tube" code
--- Ẑeg9, "minetest-teleporters" code
+- minertestdude (minerdudetest on minetest forums),based upon changes by r4nd0m6uy.
+- r4nd0m6uy, "minimalist teleporter" project, based upon:
+- Bad-Command, "teleporter mod" code
+- VanessaE, "teleport_tube" code
+- Ẑeg9, "minetest-teleporters" code
 
-- minertestdude (minerdudetest on minetest forums), "minimalist teleporter" from r4nd0m6uy enhanced with compatibility with Mineclone 2 and different texture
