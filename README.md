@@ -1,6 +1,6 @@
-# "Teleporters improved improved" MCL compatible
+# "Teleporters improved improved" MCL2 compatible
 based upon "Teleporters improved", original documentation see below.
-- made compatible with MCL, keeping compatibility to Minetest Game
+- made compatible with MCL2, keeping compatibility to Minetest Game
 - balanced the resource cost against rail cost, Mese Crystal -> Mese Block
 - created new texture from scratch and replaced it
 - created pictogram and added it
