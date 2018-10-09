@@ -30,17 +30,11 @@ dofile(minetest.get_modpath("teleporter").."/config.lua")
 moditems = {}
 
 if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
-  moditems.mclrunning = 1  -- used to prevent printing infofield in MCL
 	moditems.GLAS_ITEM = "group:glass"  -- MCL glass
 	moditems.MESE_ITEM = "mcl_core:goldblock" -- using goldblock as approximate equivalent
-	moditems.BOXART = "bgcolor[#d0d0d0;false]listcolors[#9d9d9d;#9d9d9d;#5c5c5c;#000000;#ffffff]" -- trying to imitate MCL boxart
-
 else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
-	moditems.mclrunning = nil
 	moditems.GLAS_ITEM = "default:glass" -- MTG glass
 	moditems.MESE_ITEM = "default:mese"
-	moditems.BOXART = ""
-
 end
 
 ------------------------------------------------------------------------
@@ -155,6 +149,13 @@ end
 local function update_teleporters_meta()
   local meta
   local db = get_teleporters_db()
+	local boxart
+
+  if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
+	  boxart = "bgcolor[#d0d0d0;false]listcolors[#9d9d9d;#9d9d9d;#5c5c5c;#000000;#ffffff]" -- trying to imitate MCL boxart
+  else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
+	  boxart = " "
+  end
 
   for hash, tp in pairs(db) do
     meta = minetest.env:get_meta(tp.location)
@@ -165,7 +166,7 @@ local function update_teleporters_meta()
     end
 
     -- Info text
-    if moditems.mclrunning == nil then  -- prevent printing infotext when mcl is running
+    if core.get_modpath("mcl_core") == nil or mcl_core == nil then 
       if  tp.destination_hash == nil then
         meta:set_string("infotext", tp.name..": unlinked")
       else
@@ -183,7 +184,7 @@ local function update_teleporters_meta()
         "label[0,2;Destination]"..
         build_destination_drop_list(hash)..
         "button_exit[2,3;2,1;save;Save]"..
-				moditems.BOXART)
+				boxart)
   end
 
   -- Make changes permanent
