@@ -1,3 +1,12 @@
+# "Teleporters improved improved" MCL compatible
+based upon "Teleporters improved", original documentation see below.
+- made compatible with MCL, keeping compatibility to Minetest Game
+- balanced the resource cost against rail cost, Mese Crystal -> Mese Block
+- created new texture from scratch and replaced it
+- created pictogram and added it
+- added "pos" checks to prevent run-time errors
+- added teleport sound
+
 # Teleporters improved
 A minimalist teleporter mode that is more user friendly. 
 
@@ -48,3 +57,11 @@ make this mode more complete:
 * Add locked teleporters that are only visible in the destination list 
   for the owner
 * Code optimisation
+
+# Contributors
+- r4nd0m6uy, "minimalist teleporter" project, using these projects:
+-- Bad-Command, "teleporter mod" code
+-- VanessaE, "teleport_tube" code
+-- Ẑeg9, "minetest-teleporters" code
+
+- minertestdude (minerdudetest on minetest forums), "minimalist teleporter" from r4nd0m6uy enhanced with compatibility with Mineclone 2 and different texture
