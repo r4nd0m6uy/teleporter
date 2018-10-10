@@ -25,10 +25,27 @@ teleporter.db_filename = minetest.get_worldpath().."/teleporter_db"
 -- Read configuration
 dofile(minetest.get_modpath("teleporter").."/config.lua")
 
+
+-- MCL2 compatibility
+moditems = {}
+
+if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
+	moditems.GLAS_ITEM = "group:glass"  -- MCL glass
+	moditems.MESE_ITEM = "mcl_core:goldblock" -- using goldblock as approximate equivalent
+else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
+	moditems.GLAS_ITEM = "default:glass" -- MTG glass
+	moditems.MESE_ITEM = "default:mese"
+end
+
 ------------------------------------------------------------------------
 -- Teleporters database
 ------------------------------------------------------------------------
+-- fix database break on reload
 local function build_hash(pos)
+	if pos == nil then
+		return
+	end
+
   return ""..pos.x.."/"..pos.y.."/"..pos.z
 end
 
@@ -65,13 +82,18 @@ end
 
 local function get_teleporter_at(pos)
   local db = get_teleporters_db()
-  local hash = build_hash(pos)
+
+	if pos == nil then
+		return
+	end
+
+	local hash = build_hash(pos)
 
   if db[hash] == nil then
-    db[hash] = {}
-  end
+     db[hash] = {}
+	end
 
-  return db[hash]
+	return db[hash]
 end
 
 local function get_teleporter_hash_from_name(name)
@@ -127,6 +149,13 @@ end
 local function update_teleporters_meta()
   local meta
   local db = get_teleporters_db()
+	local boxart
+
+  if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
+	  boxart = "bgcolor[#d0d0d0;false]listcolors[#9d9d9d;#9d9d9d;#5c5c5c;#000000;#ffffff]" -- trying to imitate MCL boxart
+  else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
+	  boxart = " "
+  end
 
   for hash, tp in pairs(db) do
     meta = minetest.env:get_meta(tp.location)
@@ -137,11 +166,13 @@ local function update_teleporters_meta()
     end
 
     -- Info text
-    if tp.destination_hash == nil then
-      meta:set_string("infotext", tp.name..": unlinked")
-    else
-      meta:set_string("infotext", tp.name..": linked to "..db[tp.destination_hash].name)
-    end
+    if core.get_modpath("mcl_core") == nil or mcl_core == nil then 
+      if  tp.destination_hash == nil then
+        meta:set_string("infotext", tp.name..": unlinked")
+      else
+        meta:set_string("infotext", tp.name..": linked to "..db[tp.destination_hash].name)
+      end
+		end
 
     -- Build right click menu
     meta:set_string(
@@ -152,7 +183,8 @@ local function update_teleporters_meta()
         tp.name.."]"..
         "label[0,2;Destination]"..
         build_destination_drop_list(hash)..
-        "button_exit[2,3;2,1;save;Save]")
+        "button_exit[2,3;2,1;save;Save]"..
+				boxart)
   end
 
   -- Make changes permanent
@@ -163,6 +195,10 @@ end
 -- Configure teleporters
 ------------------------------------------------------------------------
 local function teleporter_configured(pos, formname, fields, sender)
+	if pos == nil then
+		return
+	end
+
   local teleporter = get_teleporter_at(pos)
   local db = get_teleporters_db()
   local newName = fields["ID"]
@@ -199,6 +235,11 @@ end
 -- on delete
 ------------------------------------------------------------------------
 local function teleporter_destructed(pos)
+
+	if pos == nil then
+		return
+	end
+
   get_teleporters_db()[build_hash(pos)] = nil
   update_teleporters_meta()
 end
@@ -207,7 +248,11 @@ end
 -- on_construct
 ------------------------------------------------------------------------
 local function teleporter_pad_constructed(pos)
-  local db = get_teleporters_db()
+	if pos == nil then
+		return
+	end
+
+	local db = get_teleporters_db()
   local hash = build_hash(pos)
   local teleporter = {
     name = hash,
@@ -226,7 +271,11 @@ end
 -- teleport abm callback
 ------------------------------------------------------------------------
 local function teleport_event(pos, node, active_object_count, active_object_count_wider)
-  local objs = minetest.env:get_objects_inside_radius(pos, 1)
+	if pos == nil then
+		return
+	end
+
+	local objs = minetest.env:get_objects_inside_radius(pos, 1)
   local tp = get_teleporter_at(pos)
   local db = get_teleporters_db()
         
@@ -244,6 +293,7 @@ local function teleport_event(pos, node, active_object_count, active_object_coun
   for k, player in pairs(objs) do
     if player:get_player_name() ~= nil then
       player:moveto(db[tp.destination_hash].location, false)
+			minetest.sound_play("teleporter_teleport", {pos = db[tp.destination_hash].location, gain = 1.0, max_hear_distance = 10,})
       db[tp.destination_hash].last_spawned_player_time = minetest.get_gametime()
     end
   end
@@ -267,7 +317,7 @@ minetest.register_node(
     paramtype2 = "wallmounted",
     walkable = false,
     description="Teleporter Pad",
-    inventory_image = "teleporter_teleporter_pad.png",
+    inventory_image = "teleporter_teleporter_pad_16.png",
     metadata_name = "sign",
     groups = {
       cracky = 2,
@@ -299,11 +349,11 @@ minetest.register_abm(
 ------------------------------------------------------------------------
 minetest.register_craft(
   {
-    output = 'teleporter:teleporter_pad',
+    output = 'teleporter:teleporter_pad', -- since teleporters are paired anyway, produce a pair.
     recipe = {
-      {'default:glass', 'default:glass', 'default:glass'},
+      { moditems.GLAS_ITEM, moditems.GLAS_ITEM, moditems.GLAS_ITEM },
       {'', '', ''},
-      {'', 'default:mese_crystal', ''},
+      { '', moditems.MESE_ITEM, '' }, -- balancing mese against rail costs.
     }
   }
 )
