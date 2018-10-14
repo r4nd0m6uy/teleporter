@@ -1,10 +1,3 @@
-# "Teleporters improved improved" MCL2 compatible
-
-
-v1.0P
-
-/minertestdude
-
 # Teleporters improved
 A minimalist teleporter mode that is more user friendly. 
 
