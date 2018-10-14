@@ -312,7 +312,7 @@ minetest.register_node(
     paramtype2 = "wallmounted",
     walkable = false,
     description="Teleporter Pad",
-    inventory_image = "teleporter_teleporter_pad_16.png",
+--    inventory_image = "teleporter_teleporter_pad_16.png",
     metadata_name = "sign",
     groups = {
       cracky = 2,
