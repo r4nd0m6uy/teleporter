@@ -1,12 +1,5 @@
 # "Teleporters improved improved" MCL2 compatible
-based upon "Teleporters improved", original documentation see below.
-- made compatible with MCL2, keeping compatibility to Minetest Game
-- balanced the resource cost against rail cost, Mese Crystal -> Mese Block
-- created new texture from scratch and replaced it
-- created pictogram and added it
-- added "pos" checks to prevent run-time errors
-- added teleport sound
-- restructured mod folder, since its not a modpack
+
 
 v1.0P
 
@@ -20,6 +13,14 @@ existing until now but didn't cover my needs:
 * https://github.com/Bad-Command/teleporter/wiki/Teleporter-Mod
 * https://github.com/Zeg9/minetest-teleporters
 * teleport_tube from https://github.com/VanessaE/pipeworks.git
+
+# Additional changes by minertestdude
+- made compatible with MCL2, keeping compatibility to Minetest Game
+- balanced the resource cost against rail cost, Mese Crystal -> Mese Block
+- created new texture from scratch and replaced it
+- added "pos" checks to prevent run-time errors
+- added teleport sound
+- restructured mod folder, since its not a modpack
 
 # Crafting
 A teleporter pad is build using a mese block and three glass blocks
@@ -64,7 +65,7 @@ make this mode more complete:
 * Code optimisation
 
 # Contributors
-- minertestdude (minerdudetest on minetest forums),based upon changes by r4nd0m6uy.
+- minertestdude (minerdudetest on minetest forums), some improvements to work by r4nd0m6uy
 - r4nd0m6uy, "minimalist teleporter" project, based upon:
 - Bad-Command, "teleporter mod" code
 - VanessaE, "teleport_tube" code
