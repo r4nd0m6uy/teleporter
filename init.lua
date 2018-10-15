@@ -27,14 +27,16 @@ dofile(minetest.get_modpath("teleporter").."/config.lua")
 
 
 -- MCL2 compatibility
-moditems = {}
+local moditems = {}
 
 if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
 	moditems.GLAS_ITEM = "group:glass"  -- MCL glass
 	moditems.MESE_ITEM = "mcl_core:goldblock" -- using goldblock as approximate equivalent
+	moditems.BOXART = "bgcolor[#d0d0d0;false]listcolors[#9d9d9d;#9d9d9d;#5c5c5c;#000000;#ffffff]"
 else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
 	moditems.GLAS_ITEM = "default:glass" -- MTG glass
 	moditems.MESE_ITEM = "default:mese"
+	moditems.BOXART = ""
 end
 
 ------------------------------------------------------------------------
@@ -149,13 +151,6 @@ end
 local function update_teleporters_meta()
   local meta
   local db = get_teleporters_db()
-	local boxart
-
-  if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
-	  boxart = "bgcolor[#d0d0d0;false]listcolors[#9d9d9d;#9d9d9d;#5c5c5c;#000000;#ffffff]" -- trying to imitate MCL boxart
-  else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
-	  boxart = " "
-  end
 
   for hash, tp in pairs(db) do
     meta = minetest.env:get_meta(tp.location)
@@ -184,7 +179,7 @@ local function update_teleporters_meta()
         "label[0,2;Destination]"..
         build_destination_drop_list(hash)..
         "button_exit[2,3;2,1;save;Save]"..
-				boxart)
+				moditems.BOXART)
   end
 
   -- Make changes permanent
@@ -317,7 +312,7 @@ minetest.register_node(
     paramtype2 = "wallmounted",
     walkable = false,
     description="Teleporter Pad",
-    inventory_image = "teleporter_teleporter_pad_16.png",
+--    inventory_image = "teleporter_teleporter_pad_16.png",
     metadata_name = "sign",
     groups = {
       cracky = 2,
