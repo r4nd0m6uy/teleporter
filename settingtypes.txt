@@ -1,0 +1,2 @@
+# Requires some additional processing to check all items in the world each server step
+teleporter_cooldown_time (Delay in seconds between activations) int 5
