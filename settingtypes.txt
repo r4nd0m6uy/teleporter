@@ -1,0 +1,2 @@
+# Sets forced delay between activations, in seconds.
+teleporter_cooldown_time (Delay in seconds between activations) int 5

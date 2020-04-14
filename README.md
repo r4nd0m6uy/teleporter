@@ -1,5 +1,5 @@
 # Teleporters improved
-A minimalist teleporter mode that is more user friendly. 
+A minimalist teleporter mode that is very user friendly.
 
 This is a mix of the different teleporters implementation that were 
 existing until now but didn't cover my needs:
@@ -7,13 +7,7 @@ existing until now but didn't cover my needs:
 * https://github.com/Zeg9/minetest-teleporters
 * teleport_tube from https://github.com/VanessaE/pipeworks.git
 
-# Additional changes by minertestdude
-- made compatible with MCL2, keeping compatibility to Minetest Game
-- balanced the resource cost against rail cost, Mese Crystal -> Mese Block
-- created new texture from scratch and replaced it
-- added "pos" checks to prevent run-time errors
-- added teleport sound
-- restructured mod folder, since its not a modpack
+Version 1.1
 
 # Crafting
 A teleporter pad is build using a mese block and three glass blocks
@@ -30,7 +24,7 @@ M = Mese Block
 
 # Configuring
 When placed, a teleporter pad is unlinked and has a default name built 
-from its locationl. Right click on a pad and you can configure the 
+from its location. Right click on a pad and you can configure the 
 teleportation:
 
 * **Teleporter name**: A user friendly name describing the teleporter
@@ -41,7 +35,7 @@ become unlinked.
 
 When a teleporter spawns a player, it cools down for a while and is not
 able to teleport a player a during this time. This to avoid the player
-being teleported again when he appears on a teleporter
+being teleported again when he appears on a teleporter.
 
 # TODO
 This is just a proof of concept, a lot of work has to be done to 
@@ -58,9 +52,18 @@ make this mode more complete:
 * Code optimisation
 
 # Contributors
-- minertestdude (minerdudetest on minetest forums), some improvements to work by r4nd0m6uy
 - r4nd0m6uy, "minimalist teleporter" project, based upon:
 - Bad-Command, "teleporter mod" code
 - VanessaE, "teleport_tube" code
 - Ẑeg9, "minetest-teleporters" code
+- minertestdude (minerdudetest on minetest forums) improvements and mcl2 compatibility
 
+# Additional changes by minertestdude
+- made compatible with MCL2, keeping compatibility to Minetest Game
+- balanced the resource cost against rail cost, Mese Crystal -> Mese Block
+- created new texture from scratch and replaced it
+- added "pos" checks to prevent run-time errors
+- added teleport sound
+- restructured mod folder, since its not a modpack
+- migrated to minetest5
+- code improvements

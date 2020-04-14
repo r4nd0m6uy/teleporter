@@ -17,26 +17,25 @@
 -- Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ----
 
-teleporter = {}
+local teleporter = {}
 teleporter.version = 0.0
 teleporter.db = nil
 teleporter.db_filename = minetest.get_worldpath().."/teleporter_db"
 
--- Read configuration
-dofile(minetest.get_modpath("teleporter").."/config.lua")
-
+teleporter.cooldown_time = minetest.settings:get("teleporter_cooldown_time") or 5
 
 -- MCL2 compatibility
+local mineclone_path = core.get_modpath("mcl_core") and mcl_core
 local moditems = {}
 
-if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
-	moditems.GLAS_ITEM = "group:glass"  -- MCL glass
-	moditems.MESE_ITEM = "mcl_core:goldblock" -- using goldblock as approximate equivalent
-	moditems.BOXART = "bgcolor[#d0d0d0;false]listcolors[#9d9d9d;#9d9d9d;#5c5c5c;#000000;#ffffff]"
-else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
-	moditems.GLAS_ITEM = "default:glass" -- MTG glass
-	moditems.MESE_ITEM = "default:mese"
-	moditems.BOXART = ""
+if mineclone_path then -- means MineClone 2 is loaded, this is its core mod
+	moditems.glas_item = "group:glass"  -- MCL glass
+	moditems.mese_item = "mcl_core:goldblock" -- using goldblock as approximate equivalent
+	moditems.boxart = "bgcolor[#d0d0d0;false]listcolors[#9d9d9d;#9d9d9d;#5c5c5c;#000000;#ffffff]"
+else  -- default game
+	moditems.glas_item = "default:glass" -- MTG glass
+	moditems.mese_item = "default:mese"
+	moditems.boxart = ""
 end
 
 ------------------------------------------------------------------------
@@ -179,7 +178,7 @@ local function update_teleporters_meta()
         "label[0,2;Destination]"..
         build_destination_drop_list(hash)..
         "button_exit[2,3;2,1;save;Save]"..
-				moditems.BOXART)
+				moditems.boxart)
   end
 
   -- Make changes permanent
@@ -346,9 +345,9 @@ minetest.register_craft(
   {
     output = 'teleporter:teleporter_pad', -- since teleporters are paired anyway, produce a pair.
     recipe = {
-      { moditems.GLAS_ITEM, moditems.GLAS_ITEM, moditems.GLAS_ITEM },
+      { moditems.glas_item, moditems.glas_item, moditems.glas_item },
       {'', '', ''},
-      { '', moditems.MESE_ITEM, '' }, -- balancing mese against rail costs.
+      { '', moditems.mese_item, '' }, -- balancing mese against rail costs.
     }
   }
 )
